@@ -1,6 +1,6 @@
+using Microsoft.AspNetCore.Mvc;
 using FlowBoard.Auth.DTOs;
 using FlowBoard.Auth.Services;
-using Microsoft.AspNetCore.Mvc;
 
 namespace FlowBoard.Auth.Controllers;
 
@@ -47,6 +47,26 @@ public class AuthController : ControllerBase
     public async Task<IActionResult> GetUserById(int userId)
     {
         var user = await _authService.GetUserByIdAsync(userId);
+        if (user == null)
+            return NotFound(new { message = "User not found." });
+
+        return Ok(new
+        {
+            user.UserId,
+            user.Email,
+            user.Username,
+            user.FullName,
+            user.Role,
+            user.AvatarUrl,
+            user.IsActive,
+            user.CreatedAt
+        });
+    }
+
+    [HttpGet("users/by-email/{emailAddr}")]
+    public async Task<IActionResult> GetUserByEmail(string emailAddr)
+    {
+        var user = await _authService.GetUserByEmailAsync(emailAddr);
         if (user == null)
             return NotFound(new { message = "User not found." });
 
