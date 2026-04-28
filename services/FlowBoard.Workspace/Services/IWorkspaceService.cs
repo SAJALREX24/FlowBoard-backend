@@ -12,6 +12,7 @@ public interface IWorkspaceService
     Task<Models.Workspace?> UpdateWorkspaceAsync(int workspaceId, UpdateWorkspaceRequest request);
     Task<bool> DeleteWorkspaceAsync(int workspaceId);
     Task<WorkspaceMember> AddMemberAsync(int workspaceId, AddMemberRequest request);
+    Task<WorkspaceMember?> UpdateMemberRoleAsync(int workspaceId, int userId, UpdateMemberRoleRequest request);
     Task<bool> RemoveMemberAsync(int workspaceId, int userId);
     Task<List<WorkspaceMember>> GetMembersAsync(int workspaceId);
 }

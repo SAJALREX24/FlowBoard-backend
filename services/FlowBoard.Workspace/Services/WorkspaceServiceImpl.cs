@@ -125,6 +125,19 @@ public class WorkspaceServiceImpl : IWorkspaceService
         return member;
     }
 
+    public async Task<WorkspaceMember?> UpdateMemberRoleAsync(int workspaceId, int userId, UpdateMemberRoleRequest request)
+    {
+        var member = await _db.WorkspaceMembers
+            .FirstOrDefaultAsync(m => m.WorkspaceId == workspaceId && m.UserId == userId);
+
+        if (member == null)
+            return null;
+
+        member.Role = request.Role;
+        await _db.SaveChangesAsync();
+        return member;
+    }
+
     public async Task<bool> RemoveMemberAsync(int workspaceId, int userId)
     {
         var member = await _db.WorkspaceMembers

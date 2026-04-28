@@ -138,6 +138,19 @@ public class BoardServiceImpl : IBoardService
         return member;
     }
 
+    public async Task<BoardMember?> UpdateMemberRoleAsync(int boardId, int userId, UpdateBoardMemberRoleRequest request)
+    {
+        var member = await _db.BoardMembers
+            .FirstOrDefaultAsync(m => m.BoardId == boardId && m.UserId == userId);
+
+        if (member == null)
+            return null;
+
+        member.Role = request.Role;
+        await _db.SaveChangesAsync();
+        return member;
+    }
+
     public async Task<bool> RemoveMemberAsync(int boardId, int userId)
     {
         var member = await _db.BoardMembers

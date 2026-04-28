@@ -80,6 +80,16 @@ public class WorkspaceController : ControllerBase
         }
     }
 
+    [HttpPut("{workspaceId:int}/members/{userId:int}")]
+    public async Task<IActionResult> UpdateMemberRole(int workspaceId, int userId, [FromBody] UpdateMemberRoleRequest request)
+    {
+        var updated = await _workspaceService.UpdateMemberRoleAsync(workspaceId, userId, request);
+        if (updated == null)
+            return NotFound(new { message = "Member not found." });
+
+        return Ok(updated);
+    }
+
     [HttpDelete("{workspaceId:int}/members/{userId:int}")]
     public async Task<IActionResult> RemoveMember(int workspaceId, int userId)
     {

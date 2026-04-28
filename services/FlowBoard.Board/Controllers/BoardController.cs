@@ -90,6 +90,16 @@ public class BoardController : ControllerBase
         }
     }
 
+    [HttpPut("{boardId:int}/members/{userId:int}")]
+    public async Task<IActionResult> UpdateMemberRole(int boardId, int userId, [FromBody] UpdateBoardMemberRoleRequest request)
+    {
+        var updated = await _boardService.UpdateMemberRoleAsync(boardId, userId, request);
+        if (updated == null)
+            return NotFound(new { message = "Member not found." });
+
+        return Ok(updated);
+    }
+
     [HttpDelete("{boardId:int}/members/{userId:int}")]
     public async Task<IActionResult> RemoveMember(int boardId, int userId)
     {

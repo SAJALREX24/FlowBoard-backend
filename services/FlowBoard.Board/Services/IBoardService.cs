@@ -13,6 +13,7 @@ public interface IBoardService
     Task<bool> CloseBoardAsync(int boardId);
     Task<bool> ReopenBoardAsync(int boardId);
     Task<BoardMember> AddMemberAsync(int boardId, AddBoardMemberRequest request);
+    Task<BoardMember?> UpdateMemberRoleAsync(int boardId, int userId, UpdateBoardMemberRoleRequest request);
     Task<bool> RemoveMemberAsync(int boardId, int userId);
     Task<List<BoardMember>> GetMembersAsync(int boardId);
 }
