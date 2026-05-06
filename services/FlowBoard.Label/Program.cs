@@ -18,8 +18,12 @@ var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
 {
-    var db = scope.ServiceProvider.GetRequiredService<FlowBoard.Label.Data.LabelDbContext>();
-    db.Database.Migrate();
+    try {
+        var db = scope.ServiceProvider.GetRequiredService<FlowBoard.Label.Data.LabelDbContext>();
+        db.Database.Migrate();
+    } catch (Exception ex) {
+        Console.WriteLine("MIGRATION FAILED: " + ex.Message);
+    }
 }
 
 
