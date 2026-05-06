@@ -80,5 +80,16 @@ app.MapReverseProxy(proxyPipeline =>
     });
 });
 
+app.MapGet("/api/test-auth", async () => {
+    try {
+        using var client = new System.Net.Http.HttpClient();
+        var response = await client.GetAsync("http://127.0.0.1:5048/api/auth/users/1");
+        return "Connected! Status: " + response.StatusCode;
+    } catch (Exception ex) {
+        return "Failed: " + ex.Message;
+    }
+});
+
 app.Run();
+
 
