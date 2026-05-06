@@ -26,12 +26,7 @@ var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
 {
-    try {
-        var db = scope.ServiceProvider.GetRequiredService<FlowBoard.Workspace.Data.WorkspaceDbContext>();
-        db.Database.Migrate();
-    } catch (Exception ex) {
-        Console.WriteLine("MIGRATION FAILED: " + ex.Message);
-    }
+    /* Database migration disabled for debugging */
 }
 
 
