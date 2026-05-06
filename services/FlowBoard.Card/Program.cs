@@ -9,7 +9,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<CardDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("CardDb")));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("CardDb")));
 
 builder.Services.AddScoped<ICardService, CardServiceImpl>();
 

@@ -9,7 +9,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<ListDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("ListDb")));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("ListDb")));
 
 builder.Services.AddScoped<IListService, ListServiceImpl>();
 

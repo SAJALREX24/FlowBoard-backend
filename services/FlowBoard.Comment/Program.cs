@@ -9,7 +9,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<CommentDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("CommentDb")));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("CommentDb")));
 
 builder.Services.AddScoped<ICommentService, CommentServiceImpl>();
 

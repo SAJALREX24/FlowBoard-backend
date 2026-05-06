@@ -4,7 +4,7 @@ using FlowBoard.Workspace.Services;
 
 // using in C# = "import this library." 
 /*Microsoft.EntityFrameworkCore is the library that lets us talk to SQL Server.
- Without this line,the word UseSqlServer below would be unrecognized.
+ Without this line,the word UseNpgsql below would be unrecognized.
 */
 var builder = WebApplication.CreateBuilder(args);//"Start a new web application builder. Call it builder."
 
@@ -17,7 +17,7 @@ builder.Services.AddSwaggerGen();
 //"Generate interactive API documentation automatically."
 
 builder.Services.AddDbContext<WorkspaceDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("WorkspaceDb")));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("WorkspaceDb")));
 
 builder.Services.AddScoped<IWorkspaceService, WorkspaceServiceImpl>();
 

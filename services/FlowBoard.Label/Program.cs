@@ -9,7 +9,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<LabelDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("LabelDb")));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("LabelDb")));
 
 builder.Services.AddScoped<ILabelService, LabelServiceImpl>();
 

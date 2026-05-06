@@ -11,7 +11,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<AuthDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("AuthDb")));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("AuthDb")));
 builder.Services.AddScoped<IAuthService, AuthServiceImpl>();
 
 builder.Services.AddRateLimiter(options =>

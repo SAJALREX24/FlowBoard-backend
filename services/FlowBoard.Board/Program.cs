@@ -9,7 +9,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<BoardDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("BoardDb")));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("BoardDb")));
 
 builder.Services.AddScoped<IBoardService, BoardServiceImpl>();
 
