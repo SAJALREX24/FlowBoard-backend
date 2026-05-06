@@ -39,8 +39,15 @@ COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 # Expose the API Gateway port
 EXPOSE 8080
 
-# Environment variables
+# Environment variables for Production
 ENV ASPNETCORE_ENVIRONMENT=Production
+
+# CRITICAL MEMORY OPTIMIZATIONS FOR 512MB CONTAINER
+# Force Workstation GC (saves massive memory at the cost of some throughput)
+ENV DOTNET_gcServer=0
+# Tell .NET to aggressively release memory back to the OS
+ENV DOTNET_System_GC_RetainVM=0
+
 
 # Start Supervisor
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
