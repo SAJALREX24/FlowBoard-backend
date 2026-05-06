@@ -9,11 +9,19 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<BoardDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("BoardDb")));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("BoardDb"), x => x.MigrationsHistoryTable("__EFMigrationsHistory_Board")));
 
 builder.Services.AddScoped<IBoardService, BoardServiceImpl>();
 
+
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<FlowBoard.Board.Data.BoardDbContext>();
+    db.Database.Migrate();
+}
+
 
 if (app.Environment.IsDevelopment())
 {
@@ -25,3 +33,4 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
 app.Run();
+

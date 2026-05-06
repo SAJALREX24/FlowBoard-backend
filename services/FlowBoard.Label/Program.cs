@@ -9,11 +9,19 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<LabelDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("LabelDb")));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("LabelDb"), x => x.MigrationsHistoryTable("__EFMigrationsHistory_Label")));
 
 builder.Services.AddScoped<ILabelService, LabelServiceImpl>();
 
+
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<FlowBoard.Label.Data.LabelDbContext>();
+    db.Database.Migrate();
+}
+
 
 if (app.Environment.IsDevelopment())
 {
@@ -25,3 +33,4 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
 app.Run();
+

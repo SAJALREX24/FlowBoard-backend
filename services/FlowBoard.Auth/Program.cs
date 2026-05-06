@@ -11,7 +11,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<AuthDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("AuthDb")));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("AuthDb"), x => x.MigrationsHistoryTable("__EFMigrationsHistory_Auth")));
 builder.Services.AddScoped<IAuthService, AuthServiceImpl>();
 
 builder.Services.AddRateLimiter(options =>
@@ -26,7 +26,15 @@ builder.Services.AddRateLimiter(options =>
     options.RejectionStatusCode = 429;
 });
 
+
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<FlowBoard.Auth.Data.AuthDbContext>();
+    db.Database.Migrate();
+}
+
 
 if (app.Environment.IsDevelopment())
 {
@@ -43,3 +51,4 @@ app.UseRateLimiter();
 app.MapControllers();
 
 app.Run();
+

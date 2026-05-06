@@ -9,11 +9,19 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<ListDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("ListDb")));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("ListDb"), x => x.MigrationsHistoryTable("__EFMigrationsHistory_List")));
 
 builder.Services.AddScoped<IListService, ListServiceImpl>();
 
+
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<FlowBoard.List.Data.ListDbContext>();
+    db.Database.Migrate();
+}
+
 
 if (app.Environment.IsDevelopment())
 {
@@ -25,3 +33,4 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
 app.Run();
+

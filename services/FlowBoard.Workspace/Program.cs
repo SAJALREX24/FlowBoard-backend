@@ -17,11 +17,19 @@ builder.Services.AddSwaggerGen();
 //"Generate interactive API documentation automatically."
 
 builder.Services.AddDbContext<WorkspaceDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("WorkspaceDb")));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("WorkspaceDb"), x => x.MigrationsHistoryTable("__EFMigrationsHistory_Workspace")));
 
 builder.Services.AddScoped<IWorkspaceService, WorkspaceServiceImpl>();
 
+
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<FlowBoard.Workspace.Data.WorkspaceDbContext>();
+    db.Database.Migrate();
+}
+
 
 if (app.Environment.IsDevelopment())
 {
@@ -36,3 +44,4 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
