@@ -33,7 +33,7 @@ var allowedOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAngular", policy =>
+    options.AddDefaultPolicy(policy =>
     {
         policy.SetIsOriginAllowed(origin => true)
               .AllowAnyHeader()
@@ -49,7 +49,7 @@ builder.Services.AddReverseProxy()
 var app = builder.Build();
 
 // ===== Middleware Pipeline =====
-app.UseCors("AllowAngular");
+app.UseCors();
 
 app.UseAuthentication();
 app.UseAuthorization();
@@ -81,3 +81,4 @@ app.MapReverseProxy(proxyPipeline =>
 });
 
 app.Run();
+
