@@ -18,7 +18,12 @@ var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
 {
-    /* Database migration disabled for debugging */
+    try {
+        var db = scope.ServiceProvider.GetRequiredService<FlowBoard.Comment.Data.CommentDbContext>();
+        db.Database.Migrate();
+    } catch (Exception ex) {
+        Console.WriteLine("MIGRATION FAILED: " + ex.Message);
+    }
 }
 
 
