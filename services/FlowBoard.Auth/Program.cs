@@ -42,8 +42,11 @@ using (var scope = app.Services.CreateScope())
 
 app.UseSwagger();
 app.UseSwaggerUI();
+<<<<<<< Updated upstream
 
 app.UseHttpsRedirection();
+=======
+>>>>>>> Stashed changes
 
 app.UseAuthorization();
 
